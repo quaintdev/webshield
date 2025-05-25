@@ -9,9 +9,6 @@ WebShield provides user with the 2 endpoints to choose from, these are:
 
 User needs to configure one or both the endpoints on their devices. Once configured all the DNS requests are routed via WebShield server where it's validated as per rules configured by the user which effectively enables blocking on their devices.
 
-![WebShield Overview](./webshield.png)
-
-### DNS
 Following sequence diagram shows how DNS requests are processed on WebShield's server
 
 ```mermaid
@@ -63,7 +60,9 @@ Currently no caching of DNS results is implemented. There are mainly 2 reasons f
    └── styles
        └── home.css
 ```
+### Screenshot of Webshield Panel
 
+![WebShield Overview](./webshield.png)
 
 
 
