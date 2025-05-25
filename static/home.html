@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/home.css" type="text/css">
+    <title>WebShield - Console</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                    <h1 class="header-title"><a href="/" class="logo-link">WebShield</a></h1>
+                </div>
+                <div class="header-right"> 
+                    <div class="nav-links">
+                        <!-- <a href="/account" class="nav-link">Account</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="layout">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div>
+                        <h2 class="sidebar-title">Your Configurations</h2>
+                        <div class="sidebar-description">
+                            Each configuration can be accessed via a unique subdomain
+                        </div>
+
+                        <ul id="config-list" class="config-list">
+                            <!-- Config items will be populated by JavaScript -->
+                        </ul>
+
+                        <button id="add-config-button" class="add-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add new configuration
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main content -->
+                <div class="main-content">
+                    <h2 class="page-title">
+                        <span id="config-title" class="config-name">home</span>
+                    </h2>
+
+                    <div class="section">
+                        <h3 class="section-title">Connection Information</h3>
+                        <div class="connection-box">
+                            <div class="connection-item">
+                                <div class="connection-label">DNS-over-TLS:</div>
+                                <code id="dns-tls" class="connection-value">
+                                    home.webshield.in
+                                </code>
+                            </div>
+                            <div class="connection-item">
+                                <div class="connection-label">DNS-over-HTTPS:</div>
+                                <code id="dns-https" class="connection-value">
+                                    https://webshield.in/doh/home
+                                </code>
+                            </div>
+                        </div>
+                        Use our <a href="" id="guide-link">guide</a> to setup these addresses on your
+                        devices.
+                    </div>
+
+                    <!-- Categories Section -->
+                    <div class="section">
+                        <h3 class="section-title">Categories</h3>
+                        <div class="info-box">
+                            <span class="legend-item legend-blue">Blue</span>
+                            categories are allowed during scheduled times.
+                            <br>
+                            <span class="legend-item legend-black">Black</span>
+                            categories are permanently blocked.
+                            <br>
+                            <div class="legend-help">
+                                <strong>Click once</strong> to toggle between inactive and blue.
+                                <strong>Double-click</strong> to set to black.
+                            </div>
+                        </div>
+
+                        <div id="category-grid" class="category-grid">
+                            <!-- Categories will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Schedule Section -->
+                    <div class="section">
+                        <h3 class="section-title">Time Schedule</h3>
+                        <div class="info-box">
+                            Configure schedule during which access to blue categories is allowed.
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="schedule-body">
+                                    <!-- Schedule rows will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button id="save-button" class="save-button">
+                        <span class="button-text">
+                            Save Config
+                        </span>
+                    </button>
+                    <button id="btn-delete-config" class="btn-delete-config">
+                        <span class="button-text">
+                            Delete Config
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="footer-container">
+                    Made with ♥️ in India <br>
+                    &copy; 2025 WebShield. All rights reserved.
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Add Configuration Modal -->
+    <div id="add-config-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Add New Configuration</h2>
+            <form id="add-config-form">
+                <div class="form-group">
+                    <label class="form-label" for="config-name">Configuration Name:</label>
+                    <input class="form-input" type="text" id="config-name" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-add-config" class="modal-button cancel-button">Cancel</button>
+                    <button type="submit" class="modal-button submit-button">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast notifications container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+        // Configuration Service - Handles API interactions
+        const configService = {
+            // Get all configurations
+            getAllConfigurations: async function () {
+                try {
+                    const response = await fetch('/api/configurations');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch configurations');
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error fetching configurations:', error);
+                    throw error;
+                }
+            },
+
+            // Get a specific configuration
+            getConfiguration: async function (id) {
+                try {
+                    const response = await fetch(`/api/configurations/${id}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch configuration: ${id}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error(`Error fetching configuration ${id}:`, error);
+                    throw error;
+                }
+            },
+
+            // Create a new configuration
+            createConfiguration: async function (config) {
+                try {
+                    const response = await fetch('/api/configurations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(config)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || `Failed to create configuration (${response.status})`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                        throw new Error('Network error: Unable to connect to the server');
+                    }
+                    console.error('Error creating configuration:', error);
+                    throw error;
+                }
+            },
+
+            // Update an existing configuration
+            updateConfiguration: async function (id, config) {
+                try {
+                    const response = await fetch(`/api/configurations/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(config)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to update configuration: ${id}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error(`Error updating configuration ${id}:`, error);
+                    throw error;
+                }
+            },
+
+            // Delete a configuration
+            deleteConfiguration: async function (name) {
+                try {
+                    const response = await fetch(`/api/configurations/${name}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to delete configuration: ${name}`);
+                    }
+
+                    return true;
+                } catch (error) {
+                    console.error(`Error deleting configuration ${name}:`, error);
+                    throw error;
+                }
+            },
+
+            // Set config state
+            setConfigState: async function (id, state) {
+                const request = {
+                    Enabled: state
+                }
+                try {
+                    const response = await fetch(`/api/configurations/${id}/state`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(request)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to set state for configuration: `);
+                    }
+                    return true;
+                } catch (error) {
+                    console.error(`Error changing configuration state:`, error);
+                    throw error;
+                }
+            }
+        };
+
+        // UI Service - Handles UI updates and interactions
+        const uiService = {
+            // Current configuration state
+            currentConfig: null,
+            hasUnsavedChanges: false,
+
+            // Initialize the UI
+            init: async function () {
+                try {
+                    // Load all configurations
+                    const configs = await configService.getAllConfigurations();
+
+                    if (configs.length > 0) {
+                        this.renderConfigList(configs);
+                        // Load the first configuration
+                        await this.loadConfiguration(configs[0].id);
+                    } else {
+                        // Handle empty configuration state
+                        this.renderEmptyState();
+                    }
+
+                    // Set up event listeners
+                    this.setupEventListeners();
+                } catch (error) {
+                    this.showToast('Error loading configurations', 'error');
+                }
+            },
+
+            // Render the empty state when no configurations exist
+            renderEmptyState: function () {
+                // Update UI to show empty state
+                document.getElementById('config-title').textContent = 'No Configuration';
+                document.getElementById('dns-tls').textContent = 'Create a configuration to get DNS-over-TLS settings';
+                document.getElementById('dns-https').textContent = 'Create a configuration to get DNS-over-HTTPS settings';
+
+                // Clear categories and schedule with empty state message
+                document.getElementById('category-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div><h3 class="empty-state-title">No Configuration Found</h3><p class="empty-state-description">Please create a new configuration using the "Add new configuration" button in the sidebar.</p></div>';
+                document.getElementById('schedule-body').innerHTML = '';
+
+                // Make sure currentConfig is null
+                this.currentConfig = null;
+                this.hasUnsavedChanges = false;
+
+                // Disable save button
+                const saveButton = document.getElementById('save-button');
+                saveButton.disabled = true;
+                saveButton.style.opacity = '0.5';
+                saveButton.style.cursor = 'not-allowed';
+            },
+
+            // Render the configuration list in the sidebar
+            renderConfigList: function (configs) {
+                const configList = document.getElementById('config-list');
+                configList.innerHTML = '';
+
+                configs.forEach(config => {
+                    const li = document.createElement('li');
+                    li.className = 'config-item';
+                    li.dataset.name = config.id;
+
+                    li.innerHTML = `
+                <span>${config.name}</span>
+                <!-- From Uiverse.io by namecho -->
+                <label class="switch" id="config-toggle">
+                    <input type="checkbox" data-name="${config.id}" ${config.enabled ? 'checked' : ''}>
+                    <span class="slider"></span>
+                </label>
+            `;
+
+                    configList.appendChild(li);
+                });
+            },
+
+            // Load a specific configuration
+            loadConfiguration: async function (id) {
+                try {
+                    // Check for unsaved changes before switching
+                    if (this.hasUnsavedChanges) {
+                        const confirm = window.confirm('You have unsaved changes. Do you want to discard them?');
+                        if (!confirm) {
+                            return;
+                        }
+                    }
+
+                    // Show loading state
+                    this.setConfigLoading(true);
+
+                    // Fetch the configuration
+                    const config = await configService.getConfiguration(id);
+                    this.currentConfig = config;
+                    this.hasUnsavedChanges = false;
+
+                    // Update UI
+                    this.updateActiveSidebar(id);
+                    this.updateConfigTitle(config.name);
+                    this.updateConnectionInfo(id, config.name);
+                    this.renderCategories(config.categories);
+                    this.renderSchedule(config.schedule);
+
+                    // Enable save button
+                    const saveButton = document.getElementById('save-button');
+                    saveButton.disabled = false;
+                    saveButton.style.opacity = '1';
+                    saveButton.style.cursor = 'pointer';
+
+                    // Hide loading state
+                    this.setConfigLoading(false);
+                } catch (error) {
+                    this.showToast(`Error loading configuration: ${id}`, 'error');
+                    this.setConfigLoading(false);
+                }
+            },
+
+            // Update which configuration is active in the sidebar
+            updateActiveSidebar: function (id) {
+                document.querySelectorAll('.config-item').forEach(item => {
+                    if (item.dataset.name === id) {
+                        item.classList.add('config-active');
+                    } else {
+                        item.classList.remove('config-active');
+                    }
+                });
+            },
+
+            // Update the configuration title
+            updateConfigTitle: function (name) {
+                document.getElementById('config-title').textContent = name;
+            },
+
+            // Update connection information
+            updateConnectionInfo: function (id, name) {
+                document.getElementById('dns-tls').textContent = `${id}.`+window.location.host;
+                document.getElementById('dns-https').textContent = `https://`+window.location.host+`/doh/${id}`;
+                document.getElementById('guide-link').href = `https://`+window.location.host+`/guide?configId=${id}&name=${name}`;
+            },
+
+            // Render categories
+            renderCategories: function (categories) {
+                const grid = document.getElementById('category-grid');
+                grid.innerHTML = '';
+
+                if (!categories || !Array.isArray(categories)) {
+                    categories = [
+                        { name: 'Social Media', status: 'active' },
+                        { name: 'Adult Content', status: 'blocked' },
+                        { name: 'Gaming', status: 'inactive' },
+                        { name: 'Education', status: 'active' },
+                        { name: 'Productivity', status: 'active' },
+                        { name: 'Shopping', status: 'inactive' },
+                        { name: 'Gambling', status: 'blocked' },
+                        { name: 'Streaming', status: 'inactive' }
+                    ];
+                }
+                categories.sort((a, b) => a.name.localeCompare(b.name)); //sort categories before rendering
+                categories.forEach(category => {
+                    const div = document.createElement('div');
+                    div.className = 'category-item';
+                    div.dataset.name = category.name;
+
+                    if (category.status === 'active') {
+                        div.classList.add('blue');
+                    } else if (category.status === 'blocked') {
+                        div.classList.add('black');
+                    }
+
+                    div.textContent = category.name;
+                    grid.appendChild(div);
+                });
+
+                // Add click handlers for categories
+                this.setupCategoryEvents();
+            },
+
+            // Render schedule
+            renderSchedule: function (schedule) {
+                const tbody = document.getElementById('schedule-body');
+                tbody.innerHTML = '';
+
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+                if (!schedule || !Array.isArray(schedule)) {
+                    schedule = [
+                        { day: 'Monday', startTime: '18:30', endTime: '19:30' },
+                        { day: 'Tuesday', startTime: '18:30', endTime: '19:30' },
+                        { day: 'Wednesday', startTime: '18:30', endTime: '19:30' },
+                        { day: 'Thursday', startTime: '18:30', endTime: '19:30' },
+                        { day: 'Friday', startTime: '18:30', endTime: '19:30' },
+                        { day: 'Saturday', startTime: '11:00', endTime: '19:30' },
+                        { day: 'Sunday', startTime: '11:00', endTime: '19:30' }
+                    ];
+                }
+
+                // Create a map for quick lookup
+                const scheduleMap = {};
+                schedule.forEach(item => {
+                    scheduleMap[item.day] = item;
+                });
+
+                days.forEach(day => {
+                    const tr = document.createElement('tr');
+                    const hasSchedule = scheduleMap[day];
+
+                    if (!hasSchedule) {
+                        tr.className = 'row-inactive';
+                        tr.innerHTML = `
+                    <td class="day-name">${day}</td>
+                    <td><span class="not-scheduled">Not scheduled</span></td>
+                    <td><span class="not-scheduled">Not scheduled</span></td>
+                    <td>
+                        <button class="action-link link-blue" data-day="${day}">
+                            Add Schedule
+                        </button>
+                    </td>
+                `;
+                    } else {
+                        tr.innerHTML = `
+                    <td class="day-name">${day}</td>
+                    <td>
+                        <input
+                            type="time"
+                            value="${hasSchedule.startTime}"
+                            class="time-input"
+                            data-day="${day}"
+                            data-field="startTime"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="time"
+                            value="${hasSchedule.endTime}"
+                            class="time-input"
+                            data-day="${day}"
+                            data-field="endTime"
+                        />
+                    </td>
+                    <td>
+                        <button class="action-link link-red" data-day="${day}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                    }
+
+                    tbody.appendChild(tr);
+                });
+
+                // Add event listeners for schedule actions
+                this.setupScheduleEvents();
+            },
+
+            // Set up event listeners
+            setupEventListeners: function () {
+                // Get the checkbox element
+                const toggleSwitches = document.querySelectorAll('.switch input[type="checkbox"]');
+                
+                // Add event listener for the change event
+
+                toggleSwitches.forEach(toggleSwitch => {
+                    toggleSwitch.addEventListener('change', async function () {
+                        if (this.checked) {
+                            response = await configService.setConfigState(this.dataset.name, true)
+                        } else {
+                            response = await configService.setConfigState(this.dataset.name, false);
+                        }
+                        if (!response){
+                            // Show success message
+                            uiService.showToast(`Error ${this.checked ? 'enabling' : 'disabling'} config`, 'error');
+                        }
+                        if (uiService.currentConfig.id === this.dataset.name) {
+                            uiService.currentConfig.enabled = this.checked;
+                        }
+                    });
+                });
+
+                // Config list click delegation
+                document.getElementById('config-list').addEventListener('click', event => {
+                    const configItem = event.target.closest('.config-item');
+                    if (!configItem) return;
+
+                    if (event.target.closest('.switch')) {
+                        //return if the click was on the switch
+                        return;
+                    }
+
+                    // Load configuration
+                    const id = configItem.dataset.name;
+                    this.loadConfiguration(id);
+                });
+
+                // Add config button
+                document.getElementById('add-config-button').addEventListener('click', () => {
+                    this.showAddConfigModal();
+                });
+
+                // Save config button
+                document.getElementById('save-button').addEventListener('click', () => {
+                    this.saveCurrentConfig();
+                });
+
+                document.getElementById('btn-delete-config').addEventListener('click', () => {
+                    this.deleteCurrentConfig();
+                });
+
+                // Add config form submission
+                document.getElementById('add-config-form').addEventListener('submit', event => {
+                    event.preventDefault();
+                    this.createNewConfig();
+                });
+
+                // Cancel add config
+                document.getElementById('cancel-add-config').addEventListener('click', () => {
+                    this.hideAddConfigModal();
+                });
+            },
+
+            // Set up category click events
+            setupCategoryEvents: function () {
+                const categories = document.querySelectorAll('.category-item');
+
+                categories.forEach(category => {
+                    // Single click handler
+                    category.addEventListener('click', event => {
+                        if (category.classList.contains('black')) {
+                            // If black, remove it
+                            category.classList.remove('black');
+                        } else if (category.classList.contains('blue')) {
+                            // If blue, remove it (make inactive)
+                            category.classList.remove('blue');
+                        } else {
+                            // If inactive, make blue
+                            category.classList.add('blue');
+                        }
+
+                        this.hasUnsavedChanges = true;
+                    });
+
+                    // Double click handler
+                    category.addEventListener('dblclick', event => {
+                        // Remove any existing classes
+                        category.classList.remove('blue');
+
+                        // Toggle black class
+                        if (category.classList.contains('black')) {
+                            category.classList.remove('black');
+                        } else {
+                            category.classList.add('black');
+                        }
+
+                        this.hasUnsavedChanges = true;
+                    });
+                });
+            },
+
+            // Set up schedule event handlers
+            setupScheduleEvents: function () {
+                // Add schedule button
+                document.querySelectorAll('.link-blue[data-day]').forEach(button => {
+                    button.addEventListener('click', event => {
+                        const day = button.dataset.day;
+                        this.addScheduleForDay(day);
+                    });
+                });
+
+                // Delete schedule button
+                document.querySelectorAll('.link-red[data-day]').forEach(button => {
+                    button.addEventListener('click', event => {
+                        const day = button.dataset.day;
+                        this.removeScheduleForDay(day);
+                    });
+                });
+
+                // Time input change
+                document.querySelectorAll('.time-input').forEach(input => {
+                    input.addEventListener('change', event => {
+                        this.hasUnsavedChanges = true;
+                    });
+                });
+            },
+
+            // Add schedule for a day
+            addScheduleForDay: function (day) {
+                // Default schedule is 9am to 5pm
+                const defaultStart = '09:00';
+                const defaultEnd = '17:00';
+
+                // Re-render the schedule with the new day added
+                if (!this.currentConfig.schedule) {
+                    this.currentConfig.schedule = [];
+                }
+
+                this.currentConfig.schedule.push({
+                    day: day,
+                    startTime: defaultStart,
+                    endTime: defaultEnd
+                });
+
+                this.renderSchedule(this.currentConfig.schedule);
+                this.hasUnsavedChanges = true;
+            },
+
+            // Remove schedule for a day
+            removeScheduleForDay: function (day) {
+                if (!this.currentConfig.schedule) return;
+
+                // Filter out the day to remove
+                this.currentConfig.schedule = this.currentConfig.schedule.filter(item => item.day !== day);
+
+                this.renderSchedule(this.currentConfig.schedule);
+                this.hasUnsavedChanges = true;
+            },
+
+            // Show add configuration modal
+            showAddConfigModal: function () {
+                document.getElementById('add-config-modal').classList.add('show');
+                document.getElementById('config-name').value = '';
+                document.getElementById('config-name').focus();
+            },
+
+            // Hide add configuration modal
+            hideAddConfigModal: function () {
+                document.getElementById('add-config-modal').classList.remove('show');
+            },
+
+            // Create a new configuration
+            createNewConfig: async function () {
+                const nameInput = document.getElementById('config-name');
+                const name = nameInput.value.trim();
+
+                if (!name) {
+                    this.showToast('Please enter a configuration name', 'error');
+                    return;
+                }
+
+                try {
+                    // Show loading state
+                    this.setConfigLoading(true);
+
+                    // Only send the name - backend will handle default values
+                    const newConfig = {
+                        name: name
+                    };
+
+                    // Create the configuration
+                    let addedConfig = await configService.createConfiguration(newConfig);
+                    // Hide the modal
+                    this.hideAddConfigModal();
+
+                    await configService.setConfigState(addedConfig.id, true);
+
+                    // Refresh the configuration list
+                    const configs = await configService.getAllConfigurations();
+                    this.renderConfigList(configs);
+
+                    // Load the new configuration
+                    await this.loadConfiguration(addedConfig.id);
+
+                    // Show success message
+                    this.showToast(`Configuration "${name}" created successfully`, 'success');
+                    this.setConfigLoading(false);
+                } catch (error) {
+                    this.setConfigLoading(false);
+                    this.showToast(`Error creating configuration: ${error.message}`, 'error');
+                }
+            },
+
+            // Confirm and delete a configuration
+            confirmDeleteConfig: async function (id, name) {
+                // Don't delete if it's the last configuration
+                const configItems = document.querySelectorAll('.config-item');
+                if (configItems.length <= 1) {
+                    this.showToast('Cannot delete the last configuration', 'error');
+                    return;
+                }
+
+                // Confirm deletion
+                const confirmed = window.confirm(`Are you sure you want to delete the "${name}" configuration? This action cannot be undone.`);
+
+                if (!confirmed) return;
+
+                try {
+                    await configService.deleteConfiguration(id);
+
+                    // If we deleted the active config, switch to another one
+                    if (this.currentConfig && this.currentConfig.id === id) {
+                        // Find another config to load
+                        const configs = await configService.getAllConfigurations();
+                        if (configs.length > 0) {
+                            await this.loadConfiguration(configs[0].id);
+                        } else {
+                            // No configurations left, show empty state
+                            this.renderEmptyState();
+                        }
+                    }
+                    this.showToast(`Configuration "${name}" deleted successfully`, 'success');
+                    window.scrollTo(0, 0);
+                    // Refresh the config list
+                    const configs = await configService.getAllConfigurations();
+                    this.renderConfigList(configs);
+
+                } catch (error) {
+                    this.showToast(`Error deleting configuration: ${error.message}`, 'error');
+                }
+            },
+
+            deleteCurrentConfig: async function () {
+                if (!this.currentConfig) {
+                    this.showToast('No configuration loaded', 'error');
+                    return;
+                }
+
+                this.confirmDeleteConfig(this.currentConfig.id, this.currentConfig.name);
+            },
+
+            // Save the current configuration
+            saveCurrentConfig: async function () {
+                if (!this.currentConfig) {
+                    this.showToast('No configuration loaded', 'error');
+                    return;
+                }
+
+                try {
+                    // Update button state
+                    const saveButton = document.getElementById('save-button');
+                    //saveButton.classList.add('is-loading');
+
+                    // Collect category data
+                    const categories = Array.from(document.querySelectorAll('.category-item')).map(item => {
+                        const status = item.classList.contains('black') ? 'blocked' :
+                            item.classList.contains('blue') ? 'active' : 'inactive';
+
+                        return {
+                            name: item.textContent.trim(),
+                            status: status
+                        };
+                    });
+
+                    // Collect schedule data
+                    const scheduleInputs = document.querySelectorAll('.time-input');
+                    const scheduleMap = {};
+
+                    scheduleInputs.forEach(input => {
+                        const day = input.dataset.day;
+                        const field = input.dataset.field;
+                        const value = input.value;
+
+                        if (!scheduleMap[day]) {
+                            scheduleMap[day] = { day };
+                        }
+
+                        scheduleMap[day][field] = value;
+                    });
+
+                    const schedule = Object.values(scheduleMap);
+
+                    // Update the configuration
+                    const updatedConfig = {
+                        ...this.currentConfig,
+                        categories,
+                        schedule,
+                        offset: new Date().getTimezoneOffset()
+                    };
+
+                    // Save to the server
+                    const result = await configService.updateConfiguration(this.currentConfig.id, updatedConfig);
+
+                    // Update the current config
+                    this.currentConfig = result;
+                    this.hasUnsavedChanges = false;
+
+                    // Update button state
+                    saveButton.classList.remove('is-loading');
+
+                    this.showToast('Settings saved successfully', 'success');
+                } catch (error) {
+                    // Reset button state
+                    document.getElementById('save-button').classList.remove('is-loading');
+
+                    this.showToast(`Error saving settings: ${error.message}`, 'error');
+                }
+            },
+
+            // Set loading state for configuration
+            setConfigLoading: function (isLoading) {
+                const mainContent = document.querySelector('.main-content');
+                if (isLoading) {
+                    mainContent.style.opacity = '0.5';
+                    mainContent.style.pointerEvents = 'none';
+                } else {
+                    mainContent.style.opacity = '1';
+                    mainContent.style.pointerEvents = 'auto';
+                }
+            },
+
+            // Show a toast notification
+            showToast: function (message, type = 'success') {
+                const container = document.getElementById('toast-container');
+
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+
+                const icon = type === 'success' ?
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toast-icon"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>' :
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toast-icon"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+
+                toast.innerHTML = `${icon} ${message}`;
+                container.appendChild(toast);
+
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        container.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }
+        };
+
+        // Initialize the application when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            uiService.init();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebShield - DNS Configuration Guide</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2563eb;
+            padding: 1.5rem 0;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .logo-link {
+            color: white;
+            text-decoration: none;
+        }
+
+
+        /* Main content */
+        .main-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro {
+            margin-bottom: 2rem;
+            color: #4b5563;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+
+        .info-box>ul>li {
+            margin-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        /* Tabs Navigation */
+        .tabs-container {
+            margin-top: 2rem;
+        }
+
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs-nav-item {
+            display: flex;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 3px solid transparent;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tabs-nav-item:hover {
+            color: #4b5563;
+        }
+
+        .tabs-nav-item.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .tabs-nav-item svg {
+            margin-right: 0.5rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Subtabs */
+        .subtabs {
+            margin-bottom: 1.5rem;
+        }
+
+        .subtab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .subtab-button {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .subtab-button:hover {
+            color: #4b5563;
+        }
+
+        .subtab-button.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .subtab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .subtab-content.active {
+            display: block;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 1.5rem;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title svg {
+            margin-right: 0.75rem;
+        }
+
+        /* Steps */
+        .steps {
+            list-style-type: none;
+            counter-reset: step-counter;
+            margin-bottom: 1.5rem;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #2563eb;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        /* Notes and warnings */
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+
+        .warning {
+            background-color: #fff7ed;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            border: 1px solid #e5e7eb;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        /*ios tab styles*/
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        select {
+            height: 40px;
+        }
+
+        .btn-ios-page {
+            background-color: #0070c9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-ios-page:hover {
+            background-color: #005ba1;
+        }
+
+        .output {
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .instructions {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 30px;
+        }
+
+        .info-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #0070c9;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 12px;
+            cursor: help;
+            margin-left: 5px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .step {
+                padding-left: 2.5rem;
+            }
+
+            .tabs-nav {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .tabs-nav-item {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+                <h1 class="logo-title"><a href="/" class="logo-link">WebShield</a></h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <h1 class="page-title">DNS Configuration Guide</h1>
+
+            <div class="intro">
+                <p>This guide will help you set up DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) on your devices to use
+                    WebShield's filtering services.</p>
+            </div>
+
+            <!-- Main Tabs -->
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <!-- Android Tab -->
+                    <div class="tabs-nav-item active" onclick="showTab('android-tab')">
+                        <svg width="20" height="20" viewBox="-3 0 48 48" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>Android-color</title>
+                                <desc>Created with Sketch.</desc>
+                                <defs> </defs>
+                                <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Color-" transform="translate(-304.000000, -560.000000)" fill="#95CF00">
+                                        <path
+                                            d="M330.727009,569.600905 C329.935377,569.600905 329.294532,568.977195 329.294532,568.206729 C329.294532,567.436264 329.935377,566.815376 330.727009,566.815376 C331.518641,566.815376 332.159486,567.436264 332.159486,568.206729 C332.159486,568.977195 331.518641,569.600905 330.727009,569.600905 L330.727009,569.600905 Z M319.272991,569.600905 C318.481359,569.600905 317.840514,568.977195 317.840514,568.206729 C317.840514,567.436264 318.481359,566.815376 319.272991,566.815376 C320.064623,566.815376 320.705468,567.436264 320.705468,568.206729 C320.705468,568.977195 320.064623,569.600905 319.272991,569.600905 L319.272991,569.600905 Z M331.573737,564.018558 L332.107291,563.233981 L332.640845,562.460694 L333.829743,560.722208 C333.97763,560.507719 333.916736,560.219853 333.696355,560.078742 C333.478873,559.934809 333.180199,559.994075 333.038111,560.208564 L331.222867,562.852982 L330.677713,563.648847 C328.952361,562.996915 327.029826,562.632849 325,562.632849 C322.973074,562.632849 321.047639,562.996915 319.322287,563.648847 L318.780033,562.852982 L318.243579,562.071228 L316.967688,560.208564 C316.819801,559.994075 316.524027,559.937631 316.303645,560.078742 C316.086164,560.219853 316.025269,560.507719 316.170257,560.722208 L317.359155,562.460694 L317.892709,563.233981 L318.429163,564.018558 C314.37821,565.855822 311.637945,569.335616 311.637945,573.317766 L338.362055,573.317766 C338.362055,569.335616 335.62179,565.855822 331.573737,564.018558 Z M311.843828,575.174785 L311.637945,575.174785 L311.637945,595.613286 C311.637945,597.236061 312.992129,598.556859 314.662386,598.556859 L316.842999,598.556859 C316.767606,598.802392 316.727009,599.059214 316.727009,599.330147 L316.727009,605.214471 C316.727009,606.75258 318.011599,608 319.591964,608 C321.172328,608 322.456918,606.75258 322.456918,605.214471 L322.456918,599.330147 C322.456918,599.059214 322.413422,598.802392 322.340928,598.556859 L327.659072,598.556859 C327.586578,598.802392 327.545982,599.059214 327.545982,599.330147 L327.545982,605.214471 C327.545982,606.75258 328.827672,608 330.408036,608 C331.991301,608 333.275891,606.75258 333.275891,605.214471 L333.275891,599.330147 C333.275891,599.059214 333.232394,598.802392 333.157001,598.556859 L335.340514,598.556859 C337.010771,598.556859 338.362055,597.236061 338.362055,595.613286 L338.362055,575.174785 L311.843828,575.174785 Z M306.864954,575.174785 C305.28169,575.174785 304,576.422205 304,577.960314 L304,589.884184 C304,591.422293 305.28169,592.669713 306.864954,592.669713 C308.445319,592.669713 309.727009,591.422293 309.727009,589.884184 L309.727009,577.960314 C309.727009,576.422205 308.445319,575.174785 306.864954,575.174785 Z M343.137945,575.174785 C341.554681,575.174785 340.272991,576.422205 340.272991,577.960314 L340.272991,589.884184 C340.272991,591.422293 341.554681,592.669713 343.137945,592.669713 C344.71831,592.669713 346,591.422293 346,589.884184 L346,577.960314 C346,576.422205 344.71831,575.174785 343.137945,575.174785 Z"
+                                            id="Android"> </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        Android
+                    </div>
+
+                    <!-- iOS Tab -->
+                    <div class="tabs-nav-item" onclick="showTab('ios-tab')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M5 6C5 4.34315 6.34315 3 8 3H16C17.6569 3 19 4.34315 19 6V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V6Z"
+                                    stroke="#000000" stroke-width="2"></path>
+                                <path
+                                    d="M16 3H15.8889C14.9684 3 14.2222 3.74619 14.2222 4.66667C14.2222 4.85076 14.073 5 13.8889 5H10.1111C9.92702 5 9.77778 4.85076 9.77778 4.66667C9.77778 3.74619 9.03159 3 8.11111 3H8"
+                                    stroke="#000000" stroke-width="2"></path>
+                                <path d="M15 11L11.25 15L9 13.1818" stroke="#000000" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
+                        iOS
+                    </div>
+
+
+                    <!-- Browser Tab -->
+                    <div class="tabs-nav-item" onclick="showTab('browser-tab')">
+                        <svg height="20" width="20" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
+                            fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <style type="text/css">
+                                    .st0 {
+                                        fill: #000000;
+                                    }
+                                </style>
+                                <g>
+                                    <path class="st0"
+                                        d="M511.587,241.725c-0.087-1.532-0.238-3.048-0.349-4.589c-0.238-3.176-0.493-6.351-0.834-9.496 c-0.198-1.778-0.444-3.541-0.675-5.32c-0.381-2.882-0.794-5.756-1.27-8.606c-0.302-1.81-0.628-3.62-0.961-5.415 c-0.532-2.81-1.111-5.605-1.731-8.384c-0.397-1.747-0.786-3.493-1.206-5.224c-0.715-2.89-1.493-5.748-2.302-8.59 c-0.437-1.556-0.85-3.113-1.318-4.653c-1.032-3.382-2.152-6.717-3.311-10.028c-0.333-0.961-0.627-1.937-0.976-2.89 c-1.556-4.287-3.224-8.518-5.002-12.687c-0.365-0.858-0.77-1.684-1.144-2.532c-1.437-3.287-2.921-6.542-4.494-9.75 c-0.666-1.365-1.381-2.691-2.072-4.041c-1.365-2.66-2.754-5.312-4.207-7.923c-0.81-1.454-1.644-2.882-2.485-4.32 c-1.437-2.469-2.914-4.914-4.43-7.336c-0.898-1.421-1.802-2.835-2.724-4.232c-1.588-2.43-3.232-4.811-4.906-7.178 c-0.913-1.302-1.818-2.604-2.755-3.882c-1.873-2.548-3.81-5.041-5.771-7.518c-0.81-1.016-1.589-2.064-2.414-3.065 c-5.652-6.914-11.655-13.528-17.99-19.817c-0.945-0.936-1.937-1.833-2.898-2.754c-2.239-2.152-4.494-4.288-6.812-6.359 c-1.239-1.112-2.509-2.176-3.772-3.263c-2.112-1.818-4.24-3.613-6.415-5.359c-0.635-0.516-1.246-1.072-1.889-1.58 c-0.095-0.048-0.19-0.088-0.286-0.135C370.632,20.519,315.732,0.004,256.004,0.004c-75.114,0-142.678,32.344-189.504,83.871 L45,53.436c0,0-18.967,57.068-24.961,103.084c-6.431,15.227-11.417,31.21-14.815,47.763c-0.008,0.047-0.016,0.08-0.024,0.119 c-0.794,3.89-1.484,7.813-2.104,11.758c-0.04,0.286-0.103,0.572-0.15,0.858c-0.564,3.732-1.024,7.51-1.438,11.298 c-0.047,0.508-0.135,1.009-0.19,1.517c-0.35,3.517-0.596,7.066-0.802,10.623c-0.047,0.794-0.142,1.58-0.182,2.374 C0.111,247.187,0,251.578,0,255.992c0,141.392,114.612,256.004,256.004,256.004C397.38,511.996,512,397.384,512,255.992 C512,251.205,511.842,246.457,511.587,241.725z M399.468,187.087c19.69,57.663,4.224,127.99,4.224,127.99 s-2.81-26.724-12.655-30.947c-42.261,120.987-140.717,122.4-170.26,71.755c33.759,7.043,59.125-42.213,77.409-43.618 c18.292-1.398,19.697-14.061-5.621-26.732c-25.319-12.647-49.28,18.324-92.882,19.713c-43.603,1.406-49.224-35.163-33.759-46.413 c15.466-11.25,14.061,0,26.725,5.622c4.215-14.06,1.405-36.561,1.405-36.561s29.534-21.103,46.422-28.138 c16.871-7.034,16.871-22.508,14.061-30.939c-2.811-8.448-14.061,2.802-14.061,2.802s-30.948-2.802-47.826-2.802 c-9.854-11.258-7.027-47.826,14.068-78.782c-35.172,1.413-47.827,14.06-70.334,29.542c-17.817-3.096-34.314-3.628-45.572-3.486 c39.768-46.882,99.051-76.718,165.194-76.718c53.313,0,102.156,19.404,139.939,51.471c-6.153-2.406-12.933-3.978-20.388-3.636 c47.818,36.568,59.085,139.256,59.085,139.256S420.562,181.458,399.468,187.087z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        Browsers
+                    </div>
+
+
+                    <!-- macOS Tab -->
+                    <!-- <div class="tabs-nav-item" onclick="showTab('macos-tab')">
+                        <svg fill="#000000" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 512 512"
+                            xml:space="preserve">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g id="7935ec95c421cee6d86eb22ecd114eed">
+                                    <path style="display: inline;"
+                                        d="M248.644,123.476c-5.45-29.71,8.598-60.285,25.516-80.89 c18.645-22.735,50.642-40.17,77.986-42.086c4.619,31.149-8.093,61.498-24.826,82.965 C309.37,106.527,278.508,124.411,248.644,123.476z M409.034,231.131c8.461-23.606,25.223-44.845,51.227-59.175 c-26.278-32.792-63.173-51.83-97.99-51.83c-46.065,0-65.542,21.947-97.538,21.947c-32.96,0-57.965-21.947-97.866-21.947 c-39.127,0-80.776,23.848-107.19,64.577c-9.712,15.055-16.291,33.758-19.879,54.59c-9.956,58.439,4.916,134.557,49.279,202.144 c21.57,32.796,50.321,69.737,87.881,70.059c33.459,0.327,42.951-21.392,88.246-21.616c45.362-0.258,53.959,21.841,87.372,21.522 c37.571-0.317,67.906-41.199,89.476-73.991c15.359-23.532,21.167-35.418,33.11-62.023 C414.435,352.487,389.459,285.571,409.034,231.131z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        Apple
+                    </div>
+
+                    
+                    <div class="tabs-nav-item" onclick="showTab('ios-tab')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z">
+                            </path>
+                            <path d="M10 2c1 .5 2 2 2 5"></path>
+                        </svg>
+                        iOS
+                    </div> -->
+
+                    <!-- Windows Tab -->
+                    <!-- <div class="tabs-nav-item" onclick="showTab('windows-tab')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="#0078D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect>
+                            <line x1="2" y1="9" x2="22" y2="9"></line>
+                            <rect x="5" y="14" width="6" height="5"></rect>
+                            <rect x="13" y="14" width="6" height="5"></rect>
+                        </svg>
+                        Windows
+                    </div> -->
+
+                    <!-- Linux Tab -->
+                    <!-- <div class="tabs-nav-item" onclick="showTab('linux-tab')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 16c0-1 1-1 1-2 0-1 1-1 1-2 0-1 1-1 1-2 0-1 0-4-1-5s-2-1-2-1"></path>
+                            <path d="M8 16c0-1-1-1-1-2 0-1-1-1-1-2 0-1-1-1-1-2 0-1 0-4 1-5s2-1 2-1"></path>
+                            <path d="M12 4C8 4 7 8 7 10s1 6 5 6 5-4 5-6-1-6-5-6Z"></path>
+                            <path d="M12 18c-2 0-5 1-5 3 0 1 1 1 1 1h8s1 0 1-1c0-2-3-3-5-3Z"></path>
+                            <path d="M12 10c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2Z"></path>
+                            <path d="M12 10v4"></path>
+                        </svg>
+                        Linux
+                    </div> -->
+
+                    <!-- Verification Tab -->
+                    <!-- <div class="tabs-nav-item" onclick="showTab('verification-tab')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Verification
+                    </div> -->
+                </div>
+
+                <!-- Tab Contents -->
+
+                <!-- Android Tab Content -->
+                <div id="android-tab" class="tab-content active">
+                    <h2 class="section-title">
+                        DNS-over-TLS Configuration
+                    </h2>
+                    <p>Android natively supports DNS-over-TLS since Android 9 (Pie). Here's how to set it up:</p>
+                    <ol class="steps">
+                        <li class="step">
+                            <h3 class="step-title">Open Settings</h3>
+                            <p>On your Android device, open the Settings app.</p>
+                        </li>
+                        <li class="step">
+                            <h3 class="step-title">Go to Network & Internet</h3>
+                            <p>Navigate to "Network & Internet" or "Connections" (may vary depending on your device).
+                            </p>
+                        </li>
+                        <li class="step">
+                            <h3 class="step-title">Select "Private DNS"</h3>
+                            <p>Look for "Private DNS" option. On some devices, you might need to tap on "More Connection
+                                Settings" or "Advanced" to find it.</p>
+                        </li>
+                        <li class="step">
+                            <h3 class="step-title">Enter your WebShield hostname</h3>
+                            <p>Select "Private DNS provider hostname" or "Enter provider hostname" and enter your
+                                WebShield DoT address:</p>
+                            <div class="code-block">{{.ConfigId}}.{{.Host}}</div>
+                            </p>
+                        </li>
+                        <li class="step">
+                            <h3 class="step-title">Save and verify</h3>
+                            <p>Tap "Save" or "Apply" and make sure the Private DNS setting shows as "Connected" or
+                                "Active".</p>
+                        </li>
+                    </ol>
+
+                    <div class="warning">
+                        <strong>Note:</strong> If you cannot find the Private DNS option, your device might be running
+                        an older version of Android that doesn't support DNS-over-TLS. In that case, maybe try
+                        configuring
+                        browsers to use DoH instead.
+                    </div>
+
+                </div>
+
+                <!-- Browser Tab Content -->
+                <div id="browser-tab" class="tab-content">
+                    <h2 class="section-title">
+                        Browser DNS-over-HTTPS Configuration
+                    </h2>
+
+                    <div class="subtabs">
+                        <div class="subtab-buttons">
+                            <button class="subtab-button active" onclick="showSubtab('chrome-subtab')">Chrome</button>
+                            <button class="subtab-button" onclick="showSubtab('firefox-subtab')">Firefox</button>
+                            <button class="subtab-button" onclick="showSubtab('edge-subtab')">Edge</button>
+                        </div>
+
+                        <div id="chrome-subtab" class="subtab-content active">
+                            <ol class="steps">
+                                <li class="step">
+                                    <h3 class="step-title">Open Chrome Settings</h3>
+                                    <p>Click the three dots (⋮) in the top right corner and select "Settings".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Navigate to Privacy and Security</h3>
+                                    <p>In the left menu, click on "Privacy and security".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Select Security</h3>
+                                    <p>Click on "Security" in the submenu.</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Configure Secure DNS</h3>
+                                    <p>Scroll down to find "Use secure DNS" and make sure it's enabled.</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Choose Custom provider</h3>
+                                    <p>Select "With Custom" and enter your WebShield DoH URL:</p>
+                                    <div class="code-block">https://{{.Host}}/doh/{{.ConfigId}}</div>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div id="firefox-subtab" class="subtab-content">
+                            <ol class="steps">
+                                <li class="step">
+                                    <h3 class="step-title">Open Firefox Settings</h3>
+                                    <p>Click the hamburger menu (≡) in the top right and select "Settings" or
+                                        "Preferences".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Navigate to Network Settings</h3>
+                                    <p>Scroll down to the bottom and click on "Settings" under the "Network Settings"
+                                        section.</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Enable DNS over HTTPS</h3>
+                                    <p>Check the box for "Enable DNS over HTTPS".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Use custom provider</h3>
+                                    <p>Select "Custom" and enter your WebShield DoH URL:</p>
+                                    <div class="code-block">https://{{.Host}}/doh/{{.ConfigId}}</div>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Save and close</h3>
+                                    <p>Click "OK" to save the settings.</p>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div id="edge-subtab" class="subtab-content">
+                            <ol class="steps">
+                                <li class="step">
+                                    <h3 class="step-title">Open Edge Settings</h3>
+                                    <p>Click the three dots (…) in the top right corner and select "Settings".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Navigate to Privacy, search, and services</h3>
+                                    <p>Select "Privacy, search, and services" from the left menu.</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Scroll to Security</h3>
+                                    <p>Scroll down to find the "Security" section.</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Configure Secure DNS</h3>
+                                    <p>Toggle on "Use secure DNS to specify how to lookup the network address for
+                                        websites".</p>
+                                </li>
+                                <li class="step">
+                                    <h3 class="step-title">Choose custom provider</h3>
+                                    <p>Select "Choose a service provider" and click "Enter custom provider".</p>
+                                    <p>Enter your WebShield DoH URL:</p>
+                                    <div class="code-block">https://{{.Host}}/doh/{{.ConfigId}}</div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ios-tab" class="tab-content">
+                    <h2 class="section-title">
+                        iOS and iPadOS Configuration
+                    </h2>
+
+                    <p>Create a custom configuration profile to enable encrypted DNS on your iOS device. We have
+                        prefilled most of the details. If you want to change anything, you can do so.
+                    </p>
+                    <br>
+                    <ol class="steps">
+                        <li class="step">
+                            <h3 class="step-title">Profile Settings</h3>
+
+                            <div class="form-group">
+                                <label for="profile-name">Profile Name:</label>
+                                <input type="text" id="profile-name" placeholder="DNS Profile" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-description">Profile Description:</label>
+                                <input type="text" id="profile-description" placeholder="DNS over HTTPS configuration"
+                                    value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-identifier">Profile Identifier:</label>
+                                <input type="text" id="profile-identifier" placeholder="com.example.dns" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-organization">Organization Name:</label>
+                                <input type="text" id="profile-organization" placeholder="Your organization name"
+                                    value="">
+                            </div>
+                        </li>
+
+                        <li class="step">
+                            <h3 class="step-title">DNS Settings</h3>
+
+                            <div class="form-group">
+                                <label for="server-name">Server Name:
+                                    <span class="tooltip">
+                                        <span class="info-icon">i</span>
+                                        <span class="tooltip-text">A name to identify this DNS server in settings</span>
+                                    </span>
+                                </label>
+                                <input type="text" id="server-name" placeholder="DoH Server" value="DoH Server">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="server-url">DoH Server URL:
+                                    <span class="tooltip">
+                                        <span class="info-icon">i</span>
+                                        <span class="tooltip-text">The HTTPS URL for DNS resolution</span>
+                                    </span>
+                                </label>
+                                <input type="text" id="server-url" placeholder="https://dns.example.com/dns-query"
+                                    value="">
+                            </div>
+
+                            <button class="btn-ios-page" onclick="generateProfile()">Generate Profile</button>
+
+                        </li>
+
+                        <div id="output-container" style="display:none;">
+                            <li class="step">
+                                <h3 class="step-title">Configuration Profile Code</h3>
+                                <p>If you want to edit anything you can copy below contents to
+                                    .mobileconfig file and edit it</p>
+                                <div id="output" class="output"></div>
+                                <button class="btn-ios-page" onclick="downloadProfile()">Download Profile</button>
+                            </li>
+                        </div>
+
+
+                        <li class="step">
+                            <h3 class="step-title">Install the Profile</h3>
+                            <ol style="margin-left:2rem">
+                                <li>Generate the profile with your desired settings</li>
+                                <li>Click "Download Profile" to save the .mobileconfig file</li>
+                                <li>Transfer the file to your iOS device (via AirDrop, email, etc.)</li>
+                                <li>On your iOS device, open the file and follow the installation prompts</li>
+                                <li>Go to Settings → General → VPN & Network → DNS to verify your DNS settings</li>
+                            </ol>
+
+                            <h3>Compatible with:</h3>
+                            <p>iOS 14 and later, iPadOS 14 and later</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- macOS Tab Content
+                <div id="macos-tab" class="tab-content">
+                    <h2 class="section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#999999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z">
+                            </path>
+                            <path d="M10 2c1 .5 2 2 2 5"></path>
+                        </svg>
+                        MacOS does not support DoH or DoT by default we recommend using browser configuration instead
+                    </h2>
+
+                    <div class="subtabs">
+                        <div class="subtab-buttons">
+                            <button class="subtab-button active" onclick="showSubtab('mac-terminal-subtab')">Terminal
+                                (DoH)</button>
+                            <button class="subtab-button" onclick="showSubtab('mac-dnscrypt-subtab')">DNSCrypt
+                                (DoH/DoT)</button>
+                        </div>
+
+                        <div id="mac-terminal-subtab" class="subtab-content active">
+                           
+                            <p>This section will contain the step-by-step instructions for configuring DNS-over-HTTPS on
+                                macOS using Terminal.</p>
+                        </div>
+
+                        <div id="mac-dnscrypt-subtab" class="subtab-content">
+                           
+                            <p>This section will contain the step-by-step instructions for configuring
+                                DNS-over-HTTPS/TLS on macOS using DNSCrypt.</p>
+                        </div>
+                    </div>
+                </div> -->
+
+            <!-- Windows Tab Content -->
+            <div id="windows-tab" class="tab-content">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="#0078D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect>
+                        <line x1="2" y1="9" x2="22" y2="9"></line>
+                        <rect x="5" y="14" width="6" height="5"></rect>
+                        <rect x="13" y="14" width="6" height="5"></rect>
+                    </svg>
+                    Windows Configuration
+                </h2>
+
+                <div class="subtabs">
+                    <div class="subtab-buttons">
+                        <button class="subtab-button active" onclick="showSubtab('win11-subtab')">Windows
+                            11</button>
+                        <button class="subtab-button" onclick="showSubtab('win10-subtab')">Windows 10</button>
+                    </div>
+
+                    <div id="win11-subtab" class="subtab-content active">
+                        <!-- Content placeholder - to be filled later -->
+                        <p>This section will contain the step-by-step instructions for configuring DNS-over-HTTPS on
+                            Windows 11.</p>
+                    </div>
+
+                    <div id="win10-subtab" class="subtab-content">
+                        <!-- Content placeholder - to be filled later -->
+                        <p>This section will contain the step-by-step instructions for configuring DNS-over-HTTPS on
+                            Windows 10.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Linux Tab Content -->
+            <div id="linux-tab" class="tab-content">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 16c0-1 1-1 1-2 0-1 1-1 1-2 0-1 1-1 1-2 0-1 0-4-1-5s-2-1-2-1"></path>
+                        <path d="M8 16c0-1-1-1-1-2 0-1-1-1-1-2 0-1-1-1-1-2 0-1 0-4 1-5s2-1 2-1"></path>
+                        <path d="M12 4C8 4 7 8 7 10s1 6 5 6 5-4 5-6-1-6-5-6Z"></path>
+                        <path d="M12 18c-2 0-5 1-5 3 0 1 1 1 1 1h8s1 0 1-1c0-2-3-3-5-3Z"></path>
+                        <path d="M12 10c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2Z"></path>
+                        <path d="M12 10v4"></path>
+                    </svg>
+                    Linux Configuration
+                </h2>
+
+                <div class="subtabs">
+                    <div class="subtab-buttons">
+                        <button class="subtab-button active"
+                            onclick="showSubtab('ubuntu-subtab')">Ubuntu/Debian</button>
+                        <button class="subtab-button" onclick="showSubtab('fedora-subtab')">Fedora</button>
+                    </div>
+
+                    <div id="ubuntu-subtab" class="subtab-content active">
+                        <!-- Content placeholder - to be filled later -->
+                        <p>This section will contain the step-by-step instructions for configuring
+                            DNS-over-HTTPS/TLS on Ubuntu/Debian Linux.</p>
+                    </div>
+
+                    <div id="fedora-subtab" class="subtab-content active">
+                        <!-- Content placeholder - to be filled later -->
+                        <p>This section will contain the step-by-step instructions for configuring
+                            DNS-over-HTTPS/TLS on Fedora Linux.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Tab Content -->
+            <div id="verification-tab" class="tab-content">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Verifying Your Configuration
+                </h2>
+
+                <!-- Content placeholder - to be filled later -->
+                <p>This section will contain information on how to verify that your secure DNS configuration is
+                    working correctly.</p>
+            </div>
+    </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 WebShield. All rights reserved.</p>
+    </footer>
+    </div>
+
+    <script>
+        // Function to show main tabs
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tabs-nav-item');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to the clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        // Function to show subtabs
+        function showSubtab(subtabId) {
+            // Find the parent subtabs container
+            const subtabsContainer = event.currentTarget.closest('.subtabs');
+
+            // Hide all subtab contents in this container
+            const subtabContents = subtabsContainer.querySelectorAll('.subtab-content');
+            subtabContents.forEach(subtab => {
+                subtab.classList.remove('active');
+            });
+
+            // Remove active class from all subtab buttons in this container
+            const subtabButtons = subtabsContainer.querySelectorAll('.subtab-button');
+            subtabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected subtab content
+            document.getElementById(subtabId).classList.add('active');
+
+            // Add active class to the clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        //ios scripts
+        // Preset DoH providers
+        const presets = {
+            webshield: {
+                name: "WebShield - {{.ConfigId}}",
+                url: "https://{{.Host}}/doh/{{.ConfigId}}",
+                description: "WebShield web filtering service",
+                organization: "WebShield",
+                identifier: "in.webshield.{{.ConfigId}}"
+            }
+        };
+
+        function loadPreset(presetName) {
+            const preset = presets[presetName];
+            if (preset) {
+                document.getElementById('profile-name').value = preset.name;
+                document.getElementById('profile-description').value = preset.description;
+                document.getElementById('profile-identifier').value = preset.identifier;
+                document.getElementById('profile-organization').value = preset.organization;
+                document.getElementById('server-name').value = preset.name;
+                document.getElementById('server-url').value = preset.url;
+            }
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function getCurrentDate() {
+            const now = new Date();
+            return now.toISOString().replace(/\.\d+Z$/, 'Z');
+        }
+
+        function generateProfile() {
+            const profileName = document.getElementById('profile-name').value;
+            const profileDesc = document.getElementById('profile-description').value;
+            const profileId = document.getElementById('profile-identifier').value;
+            const orgName = document.getElementById('profile-organization').value;
+            const serverName = document.getElementById('server-name').value;
+            const serverUrl = document.getElementById('server-url').value;
+
+            const uuid = generateUUID();
+            const currentDate = getCurrentDate();
+
+            const plist = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>DNSSettings</key>
+            <dict>
+                <key>DNSProtocol</key>
+                <string>HTTPS</string>
+                <key>ServerURL</key>
+                <string>${serverUrl}</string>
+            </dict>
+            <key>PayloadDescription</key>
+            <string>${profileDesc}</string>
+            <key>PayloadDisplayName</key>
+            <string>${serverName}</string>
+            <key>PayloadIdentifier</key>
+            <string>${profileId}.dns</string>
+            <key>PayloadType</key>
+            <string>com.apple.dnsSettings.managed</string>
+            <key>PayloadUUID</key>
+            <string>${uuid}</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>${profileDesc}</string>
+    <key>PayloadDisplayName</key>
+    <string>${profileName}</string>
+    <key>PayloadIdentifier</key>
+    <string>${profileId}</string>
+    <key>PayloadOrganization</key>
+    <string>${orgName}</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>${generateUUID()}</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>`;
+
+            document.getElementById('output').textContent = plist;
+            document.getElementById('output-container').style.display = 'block';
+        }
+
+        function downloadProfile() {
+            const profileName = document.getElementById('profile-name').value;
+            const plist = document.getElementById('output').textContent;
+
+            const blob = new Blob([plist], { type: 'application/x-apple-aspen-config' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${profileName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.mobileconfig`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize with Cloudflare preset
+        loadPreset('webshield');
+    </script>

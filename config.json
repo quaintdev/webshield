@@ -1,0 +1,59 @@
+{
+    "CertConfig": {
+        "CertPath": "/etc/letsencrypt/live/webshield.in/fullchain.pem",
+        "KeyPath": "/etc/letsencrypt/live/webshield.in/privkey.pem"
+    },
+    "DNSServers":["1.1.1.1","8.8.8.8","8.8.4.4"],
+    "Categories" :[
+        {
+            "name": "Social Media",
+            "file": "blocklists/social_media.txt"
+        },
+        {
+            "name": "Shopping",
+            "file": "blocklists/shopping.txt"
+        },
+        {
+            "name": "Entertainment",
+            "file": "blocklists/entertainment.txt"
+        },
+        {
+            "name": "Sports",
+            "file": "blocklists/sports.txt"
+        },
+        {
+            "name": "Adult",
+            "file": "blocklists/adult.txt"
+        },
+        {
+            "name": "Gambling",
+            "file": "blocklists/gambling.txt"
+        }
+    ],
+    "WebsiteExceptions": [
+        {
+            "name":"Youtube",
+            "file": "exceptions/youtube.txt"
+        },
+        {
+            "name":"Facebook",
+            "file":"exceptions/facebook.txt"
+        },
+        {
+            "name":"Instagram",
+            "file":"exceptions/instagram.txt"
+        },
+        {
+            "name":"Twitter",
+            "file":"exceptions/twitter.txt"
+        },
+        {
+            "name":"Netflix",
+            "file":"exceptions/netflix.txt"
+        },
+        {
+            "name":"Hotstar",
+            "file":"exceptions/hotstar.txt"
+        }
+    ]
+}
