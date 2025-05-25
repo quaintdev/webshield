@@ -27,9 +27,7 @@ sequenceDiagram
         WebShield->>User: 4c. Forward DNS Response to User
     end
 ```
-Currently no caching of DNS results is implemented. There are mainly 2 reasons for this:
-1. DNS caching is very tricky to implement. It increases the complexity significantly.
-2. No degradation of service due to lack of caching for few users.
+Currently DNS caching is not supported as it increases complexity significantly.
 
 ### Installation
 
