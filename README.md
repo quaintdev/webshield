@@ -1,6 +1,9 @@
 # WebShield
 A DNS based web filtering service that allows users to block websites and apps by categories. It can block services permanently or allow temporary access as per user configuration. The objective behind this project is to allow users to reclaim their valuable time and focus on things that matter.
 
+## Overview
+![](./overview.png)
+
 ## How it works?
 WebShield provides user with the 2 endpoints to choose from, these are:
 
@@ -27,15 +30,15 @@ sequenceDiagram
         WebShield->>User: 4c. Forward DNS Response to User
     end
 ```
-Currently DNS caching is not supported as it increases complexity significantly.
+Currently DNS caching is not implemented as it increases complexity significantly and causes no significant improvement in perfomance for single user usecase.
 
 ### Installation
 
-1. Clone the repository using `git clone git@github.com:quaintdev/webshield.git`. 
+1. Clone the repository using `git clone git@github.com:quaintdev/webshield.git`.
 1. Create `blocklists` directory. This directory will hold categories of domains as shown below. The txt files will hold one domain name per line
 1. If you want DNS over TLS support you will have to provide TLS certs via `config.json`
 1. Configure environment variables within `start.sh` as per your requirements. If you want DNS over TLS support then you will have to use `sudo` to run the script otherwise it's not required.
-1. You can use Caddy or any other reverse proxy in front of this server for DNS over HTTPS support. 
+1. You can use Caddy or any other reverse proxy in front of this server for DNS over HTTPS support.
 
 ```
 ├── blocklists
@@ -61,6 +64,3 @@ Currently DNS caching is not supported as it increases complexity significantly.
 ### Screenshot of Webshield Panel
 
 ![WebShield Overview](./webshield.png)
-
-
-
