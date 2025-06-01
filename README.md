@@ -10,7 +10,7 @@ WebShield provides user with the 2 endpoints to choose from, these are:
 1. DNS over TLS (for Android)
 2. DNS over HTTPS (for browsers and major operating systems)
 
-User needs to configure one or both the endpoints on their devices. Once configured all the DNS requests are routed via WebShield server where it's validated as per rules configured by the user which effectively enables blocking on their devices.
+User needs to configure any one of the endpoints on their devices. Once configured all the DNS requests are routed via WebShield server where it's validated as per rules configured by the user which effectively enables blocking on the configured devices.
 
 Following sequence diagram shows how DNS requests are processed on WebShield's server
 
@@ -35,8 +35,8 @@ Currently DNS caching is not implemented as it increases complexity significantl
 ### Installation
 
 1. Clone the repository using `git clone git@github.com:quaintdev/webshield.git`.
-1. Create `blocklists` directory. This directory will hold categories of domains as shown below. The txt files will hold one domain name per line
-1. If you want DNS over TLS support you will have to provide TLS certs via `config.json`
+1. Create `blocklists` directory. The `blocklists` are available in [webshield-blocklists](https://github.com/quaintdev/webshield-blocklists) repository.
+1. If you want DNS over TLS support you will have to provide TLS certs path via `config.json`.
 1. Configure environment variables within `start.sh` as per your requirements. If you want DNS over TLS support then you will have to use `sudo` to run the script otherwise it's not required.
 1. You can use Caddy or any other reverse proxy in front of this server for DNS over HTTPS support.
 
