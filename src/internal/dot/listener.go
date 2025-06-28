@@ -51,7 +51,8 @@ func (l *Listener) Accept() (net.Conn, error) {
 		},
 	}
 	hostname := "." + os.Getenv("hostname")
-	serverName = strings.Replace(serverName, hostname, "", -1)
+	serverName = strings.ReplaceAll(serverName, hostname, "")
+	slog.Debug("Adding", "key", key, "serverName", serverName, "hostname", hostname)
 	l.connections.Store(key, serverName)
 	return wrapped, nil
 }

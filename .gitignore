@@ -2,3 +2,7 @@ deploy.sh
 images
 old
 webshield*
+blocklists/
+frontend/
+ankshield
+user-data.db

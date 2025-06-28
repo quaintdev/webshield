@@ -14,8 +14,8 @@
             "file": "blocklists/shopping.txt"
         },
         {
-            "name": "Entertainment",
-            "file": "blocklists/entertainment.txt"
+            "name": "Streaming",
+            "file": "blocklists/streaming.txt"
         },
         {
             "name": "Sports",
@@ -28,32 +28,6 @@
         {
             "name": "Gambling",
             "file": "blocklists/gambling.txt"
-        }
-    ],
-    "WebsiteExceptions": [
-        {
-            "name":"Youtube",
-            "file": "exceptions/youtube.txt"
-        },
-        {
-            "name":"Facebook",
-            "file":"exceptions/facebook.txt"
-        },
-        {
-            "name":"Instagram",
-            "file":"exceptions/instagram.txt"
-        },
-        {
-            "name":"Twitter",
-            "file":"exceptions/twitter.txt"
-        },
-        {
-            "name":"Netflix",
-            "file":"exceptions/netflix.txt"
-        },
-        {
-            "name":"Hotstar",
-            "file":"exceptions/hotstar.txt"
         }
     ]
 }

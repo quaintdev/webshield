@@ -26,7 +26,7 @@
                     </svg>
                     <h1 class="header-title"><a href="/" class="logo-link">WebShield</a></h1>
                 </div>
-                <div class="header-right"> 
+                <div class="header-right">
                     <div class="nav-links">
                         <!-- <a href="/account" class="nav-link">Account</a> -->
                     </div>
@@ -170,6 +170,17 @@
     <div id="toast-container" class="toast-container"></div>
 
     <script>
+        function stripSubdomain(hostname = window.location.hostname) {
+            const parts = hostname.split('.');
+
+            // If less than 2 parts, return as is (e.g., "localhost")
+            if (parts.length < 2) {
+                return hostname;
+            }
+
+            // Return last two parts (domain + TLD)
+            return parts.slice(-2).join('.');
+        }
         // Configuration Service - Handles API interactions
         const configService = {
             // Get all configurations
@@ -422,9 +433,9 @@
 
             // Update connection information
             updateConnectionInfo: function (id, name) {
-                document.getElementById('dns-tls').textContent = `${id}.`+window.location.host;
-                document.getElementById('dns-https').textContent = `https://`+window.location.host+`/doh/${id}`;
-                document.getElementById('guide-link').href = `https://`+window.location.host+`/guide?configId=${id}&name=${name}`;
+                document.getElementById('dns-tls').textContent = `${id}.` + stripSubdomain(window.location.host);
+                document.getElementById('dns-https').textContent = `https://` + window.location.host + `/doh/${id}`;
+                document.getElementById('guide-link').href = `https://` + window.location.host + `/guide?configId=${id}&name=${name}`;
             },
 
             // Render categories
@@ -548,7 +559,7 @@
             setupEventListeners: function () {
                 // Get the checkbox element
                 const toggleSwitches = document.querySelectorAll('.switch input[type="checkbox"]');
-                
+
                 // Add event listener for the change event
 
                 toggleSwitches.forEach(toggleSwitch => {
@@ -558,7 +569,7 @@
                         } else {
                             response = await configService.setConfigState(this.dataset.name, false);
                         }
-                        if (!response){
+                        if (!response) {
                             // Show success message
                             uiService.showToast(`Error ${this.checked ? 'enabling' : 'disabling'} config`, 'error');
                         }

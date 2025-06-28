@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"sync"
 	"syscall"
 
@@ -14,11 +16,7 @@ import (
 	"github.com/quaintdev/webshield/src/internal/webserver"
 )
 
-func main() {
-
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-
+func initLogger() {
 	var level slog.Level
 
 	switch os.Getenv("LOGGING") {
@@ -32,8 +30,31 @@ func main() {
 		level = slog.LevelError
 	}
 
-	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: level}))
+	opts := &slog.HandlerOptions{
+		AddSource: true,
+		Level:     level,
+		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key == slog.SourceKey {
+				if source, ok := a.Value.Any().(*slog.Source); ok {
+					// Replace with just filename:line
+					return slog.String("source",
+						fmt.Sprintf("%s:%d", filepath.Base(source.File), source.Line))
+				}
+			}
+			return a
+		},
+	}
+
+	logger := slog.New(slog.NewTextHandler(os.Stdout, opts))
 	slog.SetDefault(logger)
+}
+
+func main() {
+
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+
+	initLogger()
 
 	//init repositories
 

@@ -5,17 +5,33 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
+	"math"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
 
+	"github.com/ReneKroon/ttlcache"
 	"github.com/miekg/dns"
 )
+
+func createCacheKey(msg *dns.Msg) string {
+	if len(msg.Question) > 0 {
+		return msg.Question[0].Name + "|" + strconv.Itoa(int(msg.Question[0].Qtype))
+	}
+	return ""
+}
+
+type CachedResponse struct {
+	Response *dns.Msg
+	CachedAt time.Time
+}
 
 type DNSService struct {
 	upstreamServerSelector *DNSServerSelector
 	filteringService       *FilteringService
 	verbose                bool
+	cache                  *ttlcache.Cache
 }
 
 func NewDNSService(serverSelector *DNSServerSelector, filteringService *FilteringService,
@@ -23,6 +39,7 @@ func NewDNSService(serverSelector *DNSServerSelector, filteringService *Filterin
 	return &DNSService{
 		upstreamServerSelector: serverSelector,
 		filteringService:       filteringService,
+		cache:                  ttlcache.NewCache(),
 	}
 }
 
@@ -33,7 +50,7 @@ func (dnsService *DNSService) ProcessQuery(ctx context.Context, msg *dns.Msg, co
 	if err != nil {
 		msg.Rcode = dns.RcodeNameError //send NXDOMAIN
 		elapsedTime := time.Since(startTime)
-		slog.Info("Error during processig query", "rcode", msg.Rcode, "elapsedTime", elapsedTime)
+		slog.Error("Error during processig query", "rcode", msg.Rcode, "elapsedTime", elapsedTime)
 		return msg, nil
 	}
 	if blocked {
@@ -43,16 +60,41 @@ func (dnsService *DNSService) ProcessQuery(ctx context.Context, msg *dns.Msg, co
 		//msg.Answer = append(msg.Answer, rr)
 		msg.Rcode = dns.RcodeNameError //send NXDOMAIN
 		elapsedTime := time.Since(startTime)
-		slog.Info("Replying back", "domain", domain, "rcode", msg.Rcode, "elapsedTime", elapsedTime)
+		slog.Debug("Replying back", "domain", domain, "rcode", msg.Rcode, "elapsedTime", elapsedTime)
 		return msg, nil
 	}
+
+	//check in cache
+	key := createCacheKey(msg)
+	slog.Debug("checking cache for", "key", key)
+	cacheResponse, ok := dnsService.cache.Get(key)
+	if ok {
+		elapsedTime := time.Since(startTime)
+		slog.Debug("replying back from cache", "elapsedTime", elapsedTime)
+		return cacheResponse.(CachedResponse).Response, nil
+	}
+
 	slog.Debug("querying upstream domain", "domainName", domain)
 	response, err := dnsService.QueryUpstream(msg)
 	if err != nil {
 		return nil, err
 	}
+
+	//add to cache
+	leastTTL := uint32(math.MaxUint32)
+	for _, v := range response.Answer {
+		leastTTL = min(leastTTL, v.Header().Ttl)
+	}
+
+	cacheRes := CachedResponse{
+		Response: response,
+		CachedAt: time.Now(),
+	}
+	slog.Debug("adding to cache", "key", key, "ttl", leastTTL)
+	dnsService.cache.SetWithTTL(key, cacheRes, time.Duration(leastTTL)*time.Second)
+
 	elapsedTime := time.Since(startTime)
-	slog.Info("Replying back", "domain", domain, "rcode", response.Rcode, "elapsedTime", elapsedTime)
+	slog.Debug("Replying back", "domain", domain, "rcode", response.Rcode, "elapsedTime", elapsedTime)
 	return response, nil
 }
 
